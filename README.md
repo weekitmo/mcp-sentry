@@ -60,7 +60,7 @@ pnpm dev
   "mcpServers": {
     "sentry-server": {
       "command": "npx",
-      "args": ["@weekit/mcp-sentry"],
+      "args": ["-y","@weekit/mcp-sentry"],
       "env": {
         "SENTRY_TOKEN": "your_sentry_auth_token_here",
         "SENTRY_API_BASE": "https://your_sentry_api_base_here"

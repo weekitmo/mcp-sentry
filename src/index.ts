@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { Command } from "commander";
 import dotenv from "dotenv";
 import { runServer, MISSING_AUTH_TOKEN_MESSAGE } from "./server";

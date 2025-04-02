@@ -1,6 +1,6 @@
 {
   "name": "@weekit/mcp-sentry",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP Sentry Server - Node.js implementation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

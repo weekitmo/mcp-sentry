@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import cors from "cors";
 import http from "http";
 import { IncomingMessage, ServerResponse } from "http";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -42,10 +41,6 @@ export async function createExpressServer(
   const app = express();
   const server = http.createServer(app);
   let sseTransport: SSEServerTransport | undefined;
-
-  if (options.cors) {
-    app.use(cors());
-  }
 
   // Basic health check endpoint
   app.get("/health", (req: Request, res: Response) => {

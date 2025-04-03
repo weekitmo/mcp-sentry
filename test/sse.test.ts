@@ -1,5 +1,4 @@
 import { EventSource } from "eventsource";
-import * as http from "http";
 import { spawn, ChildProcess } from "child_process";
 import * as path from "path";
 import { fileURLToPath } from "url";

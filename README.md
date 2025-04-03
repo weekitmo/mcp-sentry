@@ -4,6 +4,12 @@ This is a Node.js + TypeScript implementation of the Model Context Protocol (MCP
 
 [中文文档](./README_CN.md)
 
+## Features
+
+- Integration with Sentry API for error tracking and monitoring
+- Support for both standard MCP over stdin/stdout and SSE (Server-Sent Events) transport
+- Configurable port for the SSE server (default: 3579)
+
 ## Prerequisites
 
 - Node.js >= 20.0.0
@@ -47,6 +53,19 @@ Alternatively, you can specify the Sentry authentication token and API base as c
 pnpm start --auth-token your_sentry_auth_token_here --api-base your_sentry_api_base_here
 ```
 
+### Run with SSE Support
+
+```bash
+pnpm start:sse
+```
+
+This will start an Express server with SSE support on port 3579 (default). You can access the SSE endpoint at:
+```
+http://localhost:3579/sse
+```
+
+You can also customize the environment variables using a `.env.local` file.
+
 ### Development Mode
 
 ```bash
@@ -60,7 +79,7 @@ pnpm dev
   "mcpServers": {
     "sentry-server": {
       "command": "npx",
-      "args": ["-y","@weekit/mcp-sentry@1.0.7"],
+      "args": ["-y","@weekit/mcp-sentry@1.0.8"],
       "env": {
         "SENTRY_TOKEN": "your_sentry_auth_token_here",
         "SENTRY_API_BASE": "https://your_sentry_api_base_here"
@@ -87,7 +106,14 @@ Using local build:
 }
 ```
 
-## Features
+## Communication Protocols
+
+The MCP Sentry server supports two communication protocols:
+
+1. **Standard MCP Protocol**: Communication over standard input/output streams
+2. **SSE Transport**: Server-Sent Events for web-based communication via HTTP (port 3579)
+
+## MCP Features
 
 The MCP Sentry server provides the following features through the MCP protocol:
 

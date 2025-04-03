@@ -1,0 +1,11 @@
+The user's Nodejs project guidelines:
+
+1. Please don't just delete my code, and use comments whenever possible, unless I initiate it.
+2. I use `typescript`, please refine the types as much as possible.
+3. I use `pnpm` as a package manager.
+4. For the `README` document, please help me to update `README_CN` at the same time, which is a Chinese version.
+5. I need to add test cases when adding new features.
+6. If the project uses `prettier`, please pay attention to the related configuration file of `prettier.config.*` and follow the rules.
+7. The `package.json` dependencies need to lock the version number after the first installation, and you can't use the `^` symbol.
+8. When coding split modules as much as possible, don't write all code all in the same file.
+9. Finish the task first, then consider optimization.

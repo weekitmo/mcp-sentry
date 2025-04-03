@@ -2,7 +2,9 @@
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import dotenv from "dotenv";
-import { runServer, MISSING_AUTH_TOKEN_MESSAGE } from "./server.js";
+import { runServer } from "./server.js";
+import { TransportType } from "./types.js";
+import { MISSING_AUTH_TOKEN_MESSAGE } from "./constants.js";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -24,6 +26,16 @@ export async function runCommand() {
         describe: "Sentry API base URL",
         type: "string",
       })
+      .option("sse", {
+        describe: "Use SSE transport instead of stdio",
+        type: "boolean",
+        default: false,
+      })
+      .option("port", {
+        describe: "Port to run the server on",
+        type: "number",
+        default: 3579,
+      })
       .help()
       .alias("h", "help")
       .epilog(
@@ -40,7 +52,17 @@ export async function runCommand() {
       process.exit(1);
     }
 
-    await runServer(authToken, sentryApiBase);
+    // Determine transport type based on command line flags
+    const transportType: TransportType = argv.sse ? "sse" : "stdio";
+
+    // Pass port and host if using SSE transport
+    if (transportType === "sse") {
+      await runServer(authToken, sentryApiBase, transportType, {
+        port: argv.port as number,
+      });
+    } else {
+      await runServer(authToken, sentryApiBase, transportType);
+    }
   } catch (error) {
     console.error(
       "Error:",

@@ -4,6 +4,12 @@
 
 [English Documentation](./README.md)
 
+## 主要特点
+
+- 与 Sentry API 集成，用于错误跟踪和监控
+- 支持标准 MCP stdin/stdout 和 SSE（Server-Sent Events）传输
+- 可配置的 SSE 服务器端口（默认：3579）
+
 ## 先决条件
 
 - Node.js >= 20.0.0
@@ -47,6 +53,19 @@ pnpm start
 pnpm start --auth-token=your_sentry_auth_token_here --api-base=your_sentry_api_base_here
 ```
 
+### 使用 SSE 运行
+
+```bash
+pnpm start:sse
+```
+
+这将在端口 3579（默认）上启动支持 SSE 的 Express 服务器。您可以通过以下地址访问 SSE 端点：
+```
+http://localhost:3579/sse
+```
+
+您也可以使用 `.env.local` 文件自定义环境变量。
+
 ### 开发模式
 
 ```bash
@@ -60,7 +79,7 @@ pnpm dev
   "mcpServers": {
     "sentry-server": {
       "command": "npx",
-      "args": ["-y","@weekit/mcp-sentry@1.0.7"],
+      "args": ["-y","@weekit/mcp-sentry@1.0.8"],
       "env": {
         "SENTRY_TOKEN": "your_sentry_auth_token_here",
         "SENTRY_API_BASE": "https://your_sentry_api_base_here"
@@ -87,7 +106,14 @@ pnpm dev
 }
 ```
 
-## 功能
+## 通信协议
+
+MCP Sentry 服务器支持两种通信协议：
+
+1. **标准 MCP 协议**：通过标准输入/输出流进行通信
+2. **SSE 传输**：通过 HTTP 进行基于 Web 的通信的服务器发送事件（端口 3579）
+
+## MCP 功能
 
 MCP Sentry 服务器通过 MCP 协议提供以下功能：
 

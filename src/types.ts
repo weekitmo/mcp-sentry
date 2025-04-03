@@ -1,6 +1,11 @@
 import { TextContent, GetPromptResult, PromptMessage, ImageContent, EmbeddedResource } from '@modelcontextprotocol/sdk/types.js';
 
 /**
+ * Defines the available transport types for MCP server communication
+ */
+export type TransportType = 'stdio' | 'sse';
+
+/**
  * Represents the data structure for a Sentry issue
  */
 export class SentryIssueData {

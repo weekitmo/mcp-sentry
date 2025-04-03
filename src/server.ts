@@ -6,8 +6,8 @@ import {
   SentryError,
   SentryIssuesListData,
   SentryIssueListItem,
-} from "./types";
-import { extractIssueId, createStacktrace, extractIssuesApiUrl } from "./utils";
+} from "./types.js";
+import { extractIssueId, createStacktrace, extractIssuesApiUrl } from "./utils.js";
 
 // Constants
 const DEFAULT_SENTRY_API_BASE = "https://sentry.io/api/0/";

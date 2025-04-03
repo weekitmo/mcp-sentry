@@ -1,30 +1,39 @@
 #!/usr/bin/env node
-import { Command } from "commander";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
 import dotenv from "dotenv";
-import { runServer, MISSING_AUTH_TOKEN_MESSAGE } from "./server";
+import { runServer, MISSING_AUTH_TOKEN_MESSAGE } from "./server.js";
 
 // Load environment variables from .env file
 dotenv.config();
 
-// Create command-line interface
-const program = new Command();
-
-program
-  .name("mcp-sentry")
-  .description("MCP Sentry Server - Node.js implementation")
-  .version("1.8.0")
-  .option("-t, --auth-token <token>", "Sentry authentication token")
-  .option("-b, --api-base <url>", "Sentry API base URL");
-
-program.parse(process.argv);
-
-async function main() {
+export async function runCommand() {
   try {
-    const options = program.opts();
+    // Create command-line interface with yargs
+    const argv = yargs(hideBin(process.argv))
+      .scriptName("mcp-sentry")
+      .usage("$0 [options]")
+      .version("1.8.0")
+      .option("t", {
+        alias: "auth-token",
+        describe: "Sentry authentication token",
+        type: "string",
+      })
+      .option("b", {
+        alias: "api-base",
+        describe: "Sentry API base URL",
+        type: "string",
+      })
+      .help()
+      .alias("h", "help")
+      .epilog(
+        "For more information visit https://github.com/weekitmo/mcp-sentry"
+      )
+      .parseSync();
     // Use command line arg or fallback to environment variable
-    const authToken = options.authToken || process.env.SENTRY_TOKEN;
+    const authToken = argv.t || process.env.SENTRY_TOKEN;
     // Use command line arg or fallback to environment variable for API base URL
-    const sentryApiBase = options.apiBase || process.env.SENTRY_API_BASE;
+    const sentryApiBase = argv.b || process.env.SENTRY_API_BASE;
 
     if (!authToken) {
       console.error(MISSING_AUTH_TOKEN_MESSAGE);
@@ -41,8 +50,7 @@ async function main() {
   }
 }
 
-// Run the application
-main().catch((error) => {
+runCommand().catch((error) => {
   console.error("Fatal error:", error);
   process.exit(1);
 });

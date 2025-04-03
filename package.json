@@ -16,14 +16,14 @@
     "access": "public"
   },
   "scripts": {
-    "build": "rm -rf dist && tsc && node -e \"require('fs').chmodSync('dist/index.js', '755')\"",
+    "build": "rm -rf dist && tsc && node --input-type=module -e \"import { chmodSync } from 'fs'; chmodSync('dist/index.js', '755');\"",
     "build:tsup": "tsup --dts",
     "type-check": "tsc --noEmit",
     "start": "node dist/index.js",
     "start:sse": "node -r dotenv/config dist/index.js --sse dotenv_config_path=.env.local",
     "dev": "node --import 'tsx' src/index.ts",
     "lint": "eslint . --ext .ts",
-    "test": "pnpm build && jest",
+    "test": "pnpm build && node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:integration": "pnpm test test/integration.test.ts",
     "prepack": "pnpm build",
     "release": "pnpm build && npm publish",

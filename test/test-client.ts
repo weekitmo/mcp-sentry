@@ -1,7 +1,12 @@
 import * as readline from 'readline';
 import { spawn, ChildProcess } from 'child_process';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 import * as dotenv from 'dotenv';
+
+// ES模块中创建 __dirname 等效替代
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // 加载环境变量，优先使用.env.local
 dotenv.config({ path: '.env.local' });
@@ -214,7 +219,10 @@ export class McpTestClient {
 }
 
 // 仅当直接运行时才执行测试
-if (require.main === module) {
+// 使用ES模块的方式检测是否为直接运行
+// import.meta.url 与 process.argv[1] 比较可以确定是否为直接执行
+const isDirectRun = import.meta.url === `file://${process.argv[1]}`;
+if (isDirectRun) {
   // 主测试函数
   async function runTests() {
     // 检查是否有Sentry Token

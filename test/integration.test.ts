@@ -1,4 +1,4 @@
-import { McpTestClient } from "./test-client";
+import { McpTestClient } from "./test-client.js";
 import * as dotenv from "dotenv";
 
 // 加载环境变量，优先使用.env.local
@@ -192,7 +192,9 @@ describe("MCP Sentry Server Integration Tests", () => {
     // 这个测试针对URL解析功能，不需要实际调用API
     try {
       // 使用utils.extractIssuesApiUrl直接测试而不是通过API调用
-      const { extractIssuesApiUrl } = require("../dist/utils");
+      // 使用动态导入替代require
+      const utils = await import("../dist/utils.js");
+      const { extractIssuesApiUrl } = utils;
       
       // 测试API格式的URL
       const apiUrl = "https://sentry.example.com/api/0/organizations/exampleorg/issues/?project=123";

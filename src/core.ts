@@ -145,12 +145,29 @@ async function handleSentryIssue(
         `issues/${issueId}/hashes/`
       );
       const hashes = hashesResponse.data;
+      let latestEvent;
 
       if (!hashes || hashes.length === 0) {
-        throw new Error("No Sentry events found for this issue");
+        // Try to get events directly if no hashes found
+        try {
+          const eventsResponse = await axiosInstance.get(
+            `issues/${issueId}/events/`
+          );
+          const events = eventsResponse.data;
+          
+          if (!events || events.length === 0) {
+            throw new Error("No Sentry events found for this issue");
+          }
+          
+          // Get the latest event from the events list
+          latestEvent = events[0]; // Sentry API returns events in descending order
+        } catch (error) {
+          throw new Error("No Sentry events found for this issue");
+        }
+      } else {
+        latestEvent = hashes[0].latestEvent;
       }
 
-      const latestEvent = hashes[0].latestEvent;
       const stacktrace = createStacktrace(latestEvent);
 
       return new SentryIssueData(
